@@ -5,6 +5,7 @@ __pycache__/
 *.tmp
 *.bak
 *.original
+*.original-*
 *.lnk
 Thumbs.db
 .DS_Store

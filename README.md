@@ -11,8 +11,12 @@ Módulos de AutoCatch e Auto Item Refresh para o cliente PokeAlliance no Windows
 ## Recursos
 
 - Captura por ID do corpo do Pokémon.
-- Cards ilimitados para configurar Ball e corpo.
+- Cards ilimitados para configurar Ball e corpo, cada um com ativar/desativar.
+- Ball para Shiny e Ball reserva (usada quando a Ball do card acaba).
 - Seleção por arrastar ou pelos botões do painel.
+- Intervalo sorteado entre mínimo e máximo, com pausas curtas.
+- Espera automática quando há staff (GM/CM/Tutor) na tela.
+- Contadores da sessão (lançadas, capturas confirmadas, descartes, Balls gastas).
 - Auto Item Refresh com vários itens independentes.
 
 ## Requisitos
@@ -21,6 +25,20 @@ Módulos de AutoCatch e Auto Item Refresh para o cliente PokeAlliance no Windows
 - Cliente PokeAlliance instalado.
 - Python 3 disponível no `PATH`.
 - Jogo e launcher fechados durante a instalação.
+
+## Versão compatível
+
+Esta versão do pacote é compatível com o cliente oficial de **20/09/2026**:
+
+| Executável            | Tamanho esperado  |
+| --------------------- | ----------------- |
+| `PokeAlliance_gl.exe` | 36.114.480 bytes  |
+| `PokeAlliance_dx.exe` | 35.881.008 bytes  |
+
+O patcher confere o tamanho e as assinaturas de cada ponto alterado antes de
+gravar qualquer byte. Se o launcher instalar um build diferente, o instalador
+recusa o executável e não altera nada; nesse caso aguarde uma nova versão do
+pacote.
 
 ## Instalação
 
@@ -49,9 +67,12 @@ Módulos de AutoCatch e Auto Item Refresh para o cliente PokeAlliance no Windows
 Quando os módulos já estiverem nessa pasta, o instalador não os apaga nem tenta
 copiar a pasta sobre ela mesma.
 
-O instalador cria um backup do executável antes do primeiro patch. Depois da
-instalação, abra o cliente pelo atalho personalizado; o launcher oficial pode
-restaurar os arquivos originais.
+O instalador cria um backup do executável antes do primeiro patch
+(`PokeAlliance_gl.exe.original` e `PokeAlliance_dx.exe.original`). Se já
+existir um backup de um build anterior, o original do build atual é guardado
+como `PokeAlliance_gl.exe.original-20260920`. Depois da instalação, abra o
+cliente pelo atalho personalizado; o launcher oficial pode restaurar os
+arquivos originais.
 
 Também é possível executar pelo terminal:
 
@@ -72,7 +93,17 @@ arquivos pelos da nova versão deste pacote e execute o instalador novamente.
 1. Abra o painel **Auto Catch**.
 2. Na aba **Captura**, clique em **+ Add novo Pokemon**.
 3. Escolha a Ball e o corpo correspondente em cada card.
-4. Ative o AutoCatch.
+4. Opcional: em **Regras especiais de Ball**, defina a Ball usada em Shinys e
+   a Ball reserva.
+5. Ative o AutoCatch.
+
+Quando a Ball de um card acaba, o corpo é ignorado (ou recebe a Ball reserva) e
+o card mostra `Qtd: 0 (SEM BALL)`. Se todas as Balls acabarem, o Auto Catch se
+desativa sozinho.
+
+Na aba **Velocidade & Delays** ficam os presets de intervalo e as proteções:
+`Pausar quando houver staff na tela` (recomendado) e `Reativar automaticamente
+ao entrar no jogo`.
 
 ## Auto Item Refresh
 
@@ -112,9 +143,19 @@ pasta do pacote que contém `modules/game_autocatch/`.
 
 ### Build não suportado
 
-O patcher aceita somente builds conhecidos do `PokeAlliance_gl.exe`. Atualize o
-cliente pelo launcher oficial e use uma versão do pacote compatível. Não tente
-alterar o executável manualmente.
+O patcher aceita somente builds conhecidos do `PokeAlliance_gl.exe` (veja
+[Versão compatível](#versão-compatível)). Atualize o cliente pelo launcher
+oficial e use uma versão do pacote compatível. Não tente alterar o executável
+manualmente.
+
+### A tela de login abre sem as contas salvas
+
+Os executáveis de 20/09/2026 gravam configurações, contas e hotkeys em
+`%APPDATA%\PokeAlliance\otclientv8` quando o `init.lua` não está
+criptografado. Esta versão do pacote corrige isso no patch e mantém a pasta
+`%APPDATA%\PokeAlliance\PokeAllianceV3`, a mesma usada pelo cliente oficial.
+Se as contas sumirem, confirme que o instalador desta versão foi executado
+sobre o executável de 20/09/2026.
 
 ### Arquivo em uso ou acesso negado
 
@@ -157,6 +198,53 @@ autocatch-pka/
    └─ game_buffs/
       └─ playerbuffs.lua
 ```
+
+## Testes
+
+Os testes não precisam do cliente aberto; basta um `lua` ou `luajit` no `PATH`:
+
+```powershell
+lua modules/game_autocatch/tests/catch_interval_spec.lua
+lua modules/game_autocatch/tests/autocatch_runtime_spec.lua
+```
+
+O segundo carrega o módulo inteiro em um cliente simulado
+(`tests/fake_client.lua`) e cobre varredura, fila, Balls, staff e Auto Item.
+
+## Histórico
+
+### 20/09/2026 (módulos)
+
+- Corrigido o arrastar de item para o card do Auto Item.
+- Sem Ball na mochila o módulo não fica mais reenviando comandos; o corpo é
+  ignorado e, se todas as Balls acabarem, o Auto Catch se desativa.
+- Monstro que só sai da tela não é mais tratado como morte.
+- Auto Item para de usar o item após 3 tentativas sem identificar o buff.
+- Intervalo entre lançamentos sorteado entre mínimo e máximo, com pausas
+  curtas; espera automática quando há staff na tela.
+- Ball para Shiny, Ball reserva, ativar/desativar por card, aviso de Ball
+  acabando, fila por distância, reativação automática ao entrar no jogo,
+  contadores da sessão com captura confirmada pelo servidor.
+- Módulo sandboxed; testes novos em `modules/game_autocatch/tests`.
+
+### 20/09/2026 (patcher)
+
+- Patcher atualizado para os executáveis oficiais de 20/09/2026
+  (`PokeAlliance_gl.exe` 36.114.480 bytes e `PokeAlliance_dx.exe`
+  35.881.008 bytes). Builds anteriores não são mais aceitos.
+- Leitura de arquivos em texto puro passa a usar um desvio direto na rotina de
+  verificação de extensão do cliente, em vez da rotina de fallback antiga.
+- Correção da pasta de dados: o cliente patchado continua usando
+  `%APPDATA%\PokeAlliance\PokeAllianceV3`, preservando contas salvas, hotkeys,
+  minimapa e configurações.
+- Backup versionado (`*.original-20260920`) quando já existe um `.original`
+  de outro build.
+- Módulos `game_autocatch` e `game_buffs/playerbuffs.lua` sem alterações
+  funcionais em relação à versão anterior.
+
+### 16/09/2026
+
+- Versão inicial (0.1) para os executáveis oficiais de 15/09/2026.
 
 ## Conteúdo
 

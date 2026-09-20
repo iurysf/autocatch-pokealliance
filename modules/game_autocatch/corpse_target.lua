@@ -8,16 +8,21 @@ local function isEntryList(value)
   return type(value) == 'table' and (value[1] == nil or type(value[1]) == 'table')
 end
 
+local function isEntryActive(entry)
+  return entry.enabled ~= false
+end
+
 function CorpseTarget.hasConfigured(entries, corpse1Id, ball2Id, corpse2Id)
   if isEntryList(entries) then
     for _, entry in ipairs(entries) do
-      if validId(entry.ballId) and validId(entry.corpseId) then
+      if isEntryActive(entry) and validId(entry.ballId) and validId(entry.corpseId) then
         return true
       end
     end
     return false
   end
 
+  -- Compatibilidade com os testes e perfis da versao anterior.
   return validId(entries) and validId(corpse1Id) or
     validId(ball2Id) and validId(corpse2Id)
 end
@@ -29,11 +34,24 @@ function CorpseTarget.buildBallIndex(entries)
   for _, entry in ipairs(entries) do
     local corpseId = tonumber(entry.corpseId) or 0
     local ballId = tonumber(entry.ballId) or 0
-    if validId(corpseId) and validId(ballId) then
+    if isEntryActive(entry) and validId(corpseId) and validId(ballId) then
       index[corpseId] = ballId
     end
   end
 
+  return index
+end
+
+-- Mapa corpseId -> card ativo, para estatisticas e mensagens.
+function CorpseTarget.buildEntryIndex(entries)
+  local index = {}
+  if not isEntryList(entries) then return index end
+  for _, entry in ipairs(entries) do
+    local corpseId = tonumber(entry.corpseId) or 0
+    if isEntryActive(entry) and validId(corpseId) and validId(entry.ballId) then
+      index[corpseId] = entry
+    end
+  end
   return index
 end
 
@@ -55,7 +73,7 @@ function CorpseTarget.resolve(itemId, entries, corpse1Id, ball2Id, corpse2Id)
     for index, entry in ipairs(entries) do
       local corpseId = tonumber(entry.corpseId) or 0
       local ballId = tonumber(entry.ballId) or 0
-      if itemId == corpseId and ballId > 0 then
+      if isEntryActive(entry) and itemId == corpseId and ballId > 0 then
         local name = entry.name or string.format('Pokemon %d', index)
         return true, name, ballId, entry
       end
@@ -63,6 +81,8 @@ function CorpseTarget.resolve(itemId, entries, corpse1Id, ball2Id, corpse2Id)
     return false, nil, 0
   end
 
+  -- Compatibilidade com a assinatura antiga:
+  -- resolve(itemId, ball1Id, corpse1Id, ball2Id, corpse2Id).
   local ball1Id = entries
   if itemId == (tonumber(corpse1Id) or 0) and validId(ball1Id) then
     return true, string.format('Corpo 1 (ID %d)', corpse1Id), tonumber(ball1Id)

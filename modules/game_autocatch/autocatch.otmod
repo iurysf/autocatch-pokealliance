@@ -2,7 +2,7 @@ Module
   name: game_autocatch
   description: Configurable automatic Pokeball use by selected Pokemon corpse IDs
   author: Local customization
-  sandboxed: false
+  sandboxed: true
   autoload: true
   autoload-priority: 1000
   dependencies: [ client_topmenu, game_interface ]

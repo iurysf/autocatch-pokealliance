@@ -2,6 +2,19 @@
 Patcher Automatico para PokeAlliance - Versao Notebook
 Aplica o patch de AES-256 e Unencrypted Fallback diretamente no executavel oficial.
 Permite carregar o modulo AutoCatch sem precisar descompactar os 2 GB de sprites.
+
+Build suportado: executaveis oficiais de 20/09/2026
+  PokeAlliance_gl.exe  36.114.480 bytes
+  PokeAlliance_dx.exe  35.881.008 bytes
+
+Patches aplicados em cada executavel:
+  discoverWorkDir   -> mov al, 1; ret   (aceita a pasta de trabalho sem validar AES)
+  moduleManager     -> mov al, 1; ret   (aceita modulos em texto puro)
+  log_branch        -> jmp               (evita crash de rotacao de log com varios clientes)
+  _k_xcd            -> injeta a chave AES-256 extraida do cliente oficial
+  extension_check   -> jmp               (le arquivos sem assinatura PKA1 como texto puro)
+  v3_fallback       -> mov r8d, 14 + string "PokeAllianceV3" no lugar de "otclientv8"
+                       (mantem contas, hotkeys e perfis em %APPDATA%\\PokeAlliance\\PokeAllianceV3)
 """
 
 import os
@@ -9,6 +22,8 @@ import sys
 import struct
 import shutil
 import hashlib
+
+BUILD_TAG = '20260920'
 
 def log(msg):
     print(f"[*] {msg}")
@@ -79,7 +94,17 @@ def build_key_payload():
     payload += bytes([0x48, 0x89, 0x81, 0xd1, 0x00, 0x00, 0x00])
     payload += bytes([0x48, 0x89, 0x42, 0x18])
     payload += bytes([0xb0, 0x01, 0xc3])
-    return payload
+    return bytes(payload)
+
+# Patches comuns aos dois executaveis (bytes identicos, offsets diferentes).
+RET_TRUE = b'\xb0\x01\xc3'                                  # mov al, 1; ret
+LOG_BRANCH_ORIG = bytes.fromhex('0f86cf030000')             # jbe rel32
+LOG_BRANCH_PATCH = bytes.fromhex('e9ff03000090')            # jmp rel32; nop
+EXT_CHECK_PATCH = bytes.fromhex('e91c0300009090')           # jmp rel32; nop; nop
+V3_MOV_ORIG = bytes.fromhex('41b80a000000')                 # mov r8d, 10  (len "otclientv8")
+V3_MOV_PATCH = bytes.fromhex('41b80e000000')                # mov r8d, 14  (len "PokeAllianceV3")
+V3_STR_ORIG = b'otclientv8\x00\x00\x00\x00\x00\x00'
+V3_STR_PATCH = b'PokeAllianceV3\x00\x00'
 
 def patch_binary(target_path, backup_path, label, expected_size, patches):
     """Patch only the known executable build and verify every replacement."""
@@ -92,7 +117,7 @@ def patch_binary(target_path, backup_path, label, expected_size, patches):
         return False
 
     if len(current) != expected_size:
-        error(f"Build desconhecido para {label}: tamanho {len(current)} (esperado {expected_size}). Nenhum patch aplicado.")
+        error(f"Build desconhecido para {label}: tamanho {len(current)} (esperado {expected_size}, build {BUILD_TAG}). Nenhum patch aplicado.")
         return False
 
     already_patched = all(
@@ -124,13 +149,18 @@ def patch_binary(target_path, backup_path, label, expected_size, patches):
             with open(backup_path, 'rb') as f:
                 backup = f.read()
             if backup != bytes(current):
-                log(f"Aviso: backup existente de {label} pertence a outro estado; o executavel atual sera usado.")
+                # O backup .original pertence a um build anterior (o launcher atualizou o cliente).
+                # Guarda tambem uma copia intacta deste build para nunca perder o original.
+                versioned_backup = f"{backup_path}-{BUILD_TAG}"
+                log(f"Aviso: backup existente de {label} pertence a outro build; guardando copia original em: {versioned_backup}")
+                if not os.path.exists(versioned_backup):
+                    shutil.copy2(target_path, versioned_backup)
         except OSError as exc:
             error(f"Nao foi possivel validar backup de {label}: {exc}")
             return False
 
     data = bytearray(current)
-    log(f"Aplicando patches em {label} (AES Key + Fallback de arquivos abertos)...")
+    log(f"Aplicando patches em {label} (AES Key + Fallback de arquivos abertos + pasta PokeAllianceV3)...")
     for offset, expected, replacement in patches:
         data[offset:offset + len(replacement)] = replacement
 
@@ -163,16 +193,17 @@ def patch_gl(target_dir):
 
     backup_path = os.path.join(target_dir, "PokeAlliance_gl.exe.original")
     key_payload = build_key_payload()
-    gl_fallback = bytes.fromhex('4889f9488d94248000000041b800020000e8359e11014885c07e154989c0488d9424800000004c89f1e82d79cfffebd04889f9e8a38a1101b001e96d030000')
+    # Build oficial de 20/09/2026 (36.114.480 bytes)
     patches = [
-        (0x591fa0, bytes.fromhex('48895c'), b'\xb0\x01\xc3'),
-        (0x5920f0, bytes.fromhex('4c8bdc'), b'\xb0\x01\xc3'),
-        (0x5958f0, bytes.fromhex('48895c'), b'\xb0\x01\xc3'),
-        (0x582ba7, bytes.fromhex('0f86cf030000'), b'\xe9\xff\x03\x00\x00\x90'),
-        (0x593bf0, bytes.fromhex('48895c241848897424205557415441564157488d6c24c94881ec00010000488b052b98a7014833c448894527488bfa488bd94533e444896424204c8d79684c897d8f498bcfe8964b1b0185c00f85a30800008b83b40000003dffffff7f'), key_payload),
-        (0x5937b5, bytes.fromhex('49837c24180f7606498b0c24eb03498bcc4d8b4424104d85c0740b80392f750648ffc149ffc8488d15cecea80148833ddecea8010f480f4715becea8014c3b'), gl_fallback),
+        (0x593f20, bytes.fromhex('48895c'), RET_TRUE),                       # discoverWorkDir
+        (0x594070, bytes.fromhex('4c8bdc'), RET_TRUE),                       # moduleManager
+        (0x584b27, LOG_BRANCH_ORIG, LOG_BRANCH_PATCH),                       # log_branch (multi-cliente)
+        (0x595b70, bytes.fromhex('48895c241848897424205557415441564157488d6c24c94881ec00010000488b05abe8a7014833c448894527488bfa488bd94533e444896424204c8d79684c897d8f498bcfe8d6791b0185c00f85a30800008b83b40000003dffffff7f'), key_payload),  # _k_xcd
+        (0x597d8d, bytes.fromhex('488d15fc281f03'), EXT_CHECK_PATCH),        # extension_check (plaintext)
+        (0x58ff02, V3_MOV_ORIG, V3_MOV_PATCH),                               # v3_fallback: tamanho do APP_NAME
+        (0x1ddcdc0, V3_STR_ORIG, V3_STR_PATCH),                              # v3_fallback: "PokeAllianceV3"
     ]
-    return patch_binary(gl_path, backup_path, 'PokeAlliance_gl.exe', 36088880, patches)
+    return patch_binary(gl_path, backup_path, 'PokeAlliance_gl.exe', 36114480, patches)
 
 def patch_dx(target_dir):
     dx_path = os.path.join(target_dir, "PokeAlliance_dx.exe")
@@ -182,16 +213,17 @@ def patch_dx(target_dir):
 
     backup_path = os.path.join(target_dir, "PokeAlliance_dx.exe.original")
     key_payload = build_key_payload()
-    dx_fallback = bytes.fromhex('4889f9488d94248000000041b800020000e805fd17014885c07e154989c0488d9424800000004c89f1e8dd8cd7ffebd04889f9e873e91701b001e96d030000')
+    # Build oficial de 20/09/2026 (35.881.008 bytes)
     patches = [
-        (0x510e00, bytes.fromhex('48895c'), b'\xb0\x01\xc3'),
-        (0x510f50, bytes.fromhex('4c8bdc'), b'\xb0\x01\xc3'),
-        (0x28fe90, bytes.fromhex('48895c'), b'\xb0\x01\xc3'),
-        (0x5058b7, bytes.fromhex('0f86cf030000'), b'\xe9\xff\x03\x00\x00\x90'),
-        (0x512a50, bytes.fromhex('48895c241848897424205557415441564157488d6c24c94881ec00010000488b05cb69ac014833c448894527488bfa488bd94533e444896424204c8d79684c897d8f498bcfe8a69d210185c00f85a30800008b83b40000003dffffff7f'), key_payload),
-        (0x512615, bytes.fromhex('49837c24180f7606498b0c24eb03498bcc4d8b4424104d85c0740b80392f750648ffc149ffc8488d159e64ad0148833dae64ad010f480f47158e64ad014c3b'), dx_fallback),
+        (0x512d80, bytes.fromhex('48895c'), RET_TRUE),                       # discoverWorkDir
+        (0x512ed0, bytes.fromhex('4c8bdc'), RET_TRUE),                       # moduleManager
+        (0x507837, LOG_BRANCH_ORIG, LOG_BRANCH_PATCH),                       # log_branch (multi-cliente)
+        (0x5149d0, bytes.fromhex('48895c241848897424205557415441564157488d6c24c94881ec00010000488b054bbaac014833c448894527488bfa488bd94533e444896424204c8d79684c897d8f498bcfe8e6cb210185c00f85a30800008b83b40000003dffffff7f'), key_payload),  # _k_xcd
+        (0x51fa3d, bytes.fromhex('488d155cd12203'), EXT_CHECK_PATCH),        # extension_check (plaintext)
+        (0x50ed42, V3_MOV_ORIG, V3_MOV_PATCH),                               # v3_fallback: tamanho do APP_NAME
+        (0x1da55e8, V3_STR_ORIG, V3_STR_PATCH),                              # v3_fallback: "PokeAllianceV3"
     ]
-    return patch_binary(dx_path, backup_path, 'PokeAlliance_dx.exe', 35856424, patches)
+    return patch_binary(dx_path, backup_path, 'PokeAlliance_dx.exe', 35881008, patches)
 
 def copy_autocatch(source_dir, target_dir):
     src_mod = os.path.join(source_dir, "modules", "game_autocatch")
@@ -250,6 +282,7 @@ def create_desktop_shortcut(target_exe):
 def main():
     print("=" * 65)
     print("    INSTALADOR LEVE DO AUTOCATCH PKA PARA WINDOWS")
+    print(f"    Compativel com o cliente oficial de 20/09/2026 (build {BUILD_TAG})")
     print("=" * 65)
 
     target_dir = get_official_dir()

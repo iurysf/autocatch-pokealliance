@@ -161,7 +161,7 @@ AutoCatchPanel < UIWidget
       anchors.top: parent.top
       anchors.left: parent.left
       anchors.right: parent.right
-      height: 52
+      height: 66
       margin-left: 14
       margin-right: 14
 
@@ -199,6 +199,19 @@ AutoCatchPanel < UIWidget
         font: poppins semibold 9
         text-wrap: false
 
+      Label
+        id: statsLine
+        anchors.left: statusIndicator.right
+        anchors.top: status.bottom
+        anchors.right: parent.right
+        margin-left: 10
+        margin-right: 54
+        margin-top: 1
+        text: Lancadas 0 | Capturas 0 | Descartes 0 | Balls gastas 0
+        color: #6f8798
+        font: poppins semibold 9
+        text-wrap: false
+
       CheckBox
         id: enabled
         anchors.right: parent.right
@@ -207,8 +220,152 @@ AutoCatchPanel < UIWidget
         tooltip: Ativar / Desativar Auto Catch
 
     AutoCatchCard
-      id: captureHeader
+      id: specialRulesCard
       anchors.top: statusCard.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 74
+      margin-top: 8
+      margin-left: 14
+      margin-right: 14
+
+      Label
+        anchors.left: parent.left
+        anchors.top: parent.top
+        margin-left: 14
+        margin-top: 7
+        text: REGRAS ESPECIAIS DE BALL
+        color: #7fa4bb
+        font: poppins bold 9
+        text-auto-resize: true
+
+      UIWidget
+        id: shinyBallGlow
+        size: 40 40
+        anchors.left: parent.left
+        anchors.top: parent.top
+        margin-left: 12
+        margin-top: 26
+        image-source: /images/general_ui/bordered_background
+        image-border: 8
+        image-color: #3a2f5b
+        phantom: true
+
+      AutoCatchItemSlot
+        id: shinyBallSlot
+        size: 34 34
+        anchors.centerIn: shinyBallGlow
+        tooltip: Arraste a Ball usada em Pokemon Shiny
+
+      Label
+        id: shinyBallTitle
+        anchors.left: shinyBallGlow.right
+        anchors.top: shinyBallGlow.top
+        margin-left: 8
+        text: Ball para Shiny
+        color: #e0c3ff
+        font: poppins bold 9
+        text-auto-resize: true
+        phantom: true
+
+      Label
+        id: shinyBallInfo
+        anchors.left: shinyBallGlow.right
+        anchors.top: shinyBallTitle.bottom
+        width: 120
+        margin-left: 8
+        margin-top: 1
+        text: Nao configurada (usa a Ball do card)
+        color: #9aaab5
+        font: poppins semibold 9
+        text-wrap: true
+        phantom: true
+
+      AutoCatchSecondaryButton
+        id: selectShinyBall
+        anchors.left: shinyBallInfo.right
+        anchors.verticalCenter: shinyBallGlow.verticalCenter
+        margin-left: 4
+        width: 66
+        height: 24
+        font: poppins semibold 9
+        text: Selecionar
+
+      AutoCatchSecondaryButton
+        id: clearShinyBall
+        anchors.left: selectShinyBall.right
+        anchors.verticalCenter: selectShinyBall.verticalCenter
+        margin-left: 4
+        width: 44
+        height: 24
+        font: poppins semibold 9
+        text: Limpar
+
+      UIWidget
+        id: reserveBallGlow
+        size: 40 40
+        anchors.left: parent.horizontalCenter
+        anchors.top: parent.top
+        margin-left: 10
+        margin-top: 26
+        image-source: /images/general_ui/bordered_background
+        image-border: 8
+        image-color: #1d435b
+        phantom: true
+
+      AutoCatchItemSlot
+        id: reserveBallSlot
+        size: 34 34
+        anchors.centerIn: reserveBallGlow
+        tooltip: Arraste a Ball usada quando a Ball do card acabar
+
+      Label
+        id: reserveBallTitle
+        anchors.left: reserveBallGlow.right
+        anchors.top: reserveBallGlow.top
+        margin-left: 8
+        text: Ball reserva
+        color: #9cd7ff
+        font: poppins bold 9
+        text-auto-resize: true
+        phantom: true
+
+      Label
+        id: reserveBallInfo
+        anchors.left: reserveBallGlow.right
+        anchors.top: reserveBallTitle.bottom
+        width: 120
+        margin-left: 8
+        margin-top: 1
+        text: Nao configurada (corpo e ignorado sem Ball)
+        color: #9aaab5
+        font: poppins semibold 9
+        text-wrap: true
+        phantom: true
+
+      AutoCatchSecondaryButton
+        id: selectReserveBall
+        anchors.left: reserveBallInfo.right
+        anchors.verticalCenter: reserveBallGlow.verticalCenter
+        margin-left: 4
+        width: 66
+        height: 24
+        font: poppins semibold 9
+        text: Selecionar
+
+      AutoCatchSecondaryButton
+        id: clearReserveBall
+        anchors.left: selectReserveBall.right
+        anchors.verticalCenter: selectReserveBall.verticalCenter
+        margin-left: 4
+        width: 44
+        height: 24
+        font: poppins semibold 9
+        text: Limpar
+
+    AutoCatchCard
+      id: captureHeader
+      anchors.top: specialRulesCard.bottom
       anchors.left: parent.left
       anchors.right: parent.right
       height: 62
@@ -339,7 +496,7 @@ AutoCatchPanel < UIWidget
         margin-left: 20
         margin-right: 16
         margin-top: 32
-        text: Para sua total seguranca contra fiscalizacao de GMs e deteccoes do servidor, o Auto Catch permite simular o tempo de reacao de um jogador real. O lancamento imediato (0ms) chama atencao; recomendamos fortemente o Modo Humano Seguro.
+        text: O intervalo entre lancamentos e sorteado entre o minimo e o maximo (nunca abaixo do ping) e, a cada poucos lancamentos, o Auto Catch faz uma pausa curta, imitando o tempo de reacao de um jogador real. O modo Turbo chama atencao; recomendamos o Modo Humano Seguro.
         color: #9cb1c2
         font: poppins semibold 9
         text-wrap: true
@@ -467,6 +624,48 @@ AutoCatchPanel < UIWidget
         color: #ffffff
         font: poppins bold 10
         text-align: center
+
+    AutoCatchCard
+      id: safetyOptionsCard
+      anchors.top: safetyCustomCard.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 88
+      margin-top: 10
+      margin-left: 14
+      margin-right: 14
+
+      Label
+        anchors.left: parent.left
+        anchors.top: parent.top
+        margin-left: 16
+        margin-top: 12
+        text: PROTECOES
+        color: #7fa4bb
+        font: poppins bold 10
+        text-auto-resize: true
+
+      CheckBox
+        id: staffGuard
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        margin-left: 16
+        margin-right: 16
+        margin-top: 36
+        text: Pausar os lancamentos enquanto houver staff (GM/CM/Tutor) na tela
+        tooltip: Nenhuma Ball e lancada enquanto um membro da staff estiver visivel
+
+      CheckBox
+        id: autoRearm
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: staffGuard.bottom
+        margin-left: 16
+        margin-right: 16
+        margin-top: 8
+        text: Reativar automaticamente ao entrar no jogo (se estava ligado ao sair)
+        tooltip: Util para o logout diario com relogin automatico
 
   UIWidget
     id: tabUtilsContent
@@ -600,6 +799,15 @@ AutoCatchEntryRow < AutoCatchCard
     font: poppins semibold 9
     text-auto-resize: true
     phantom: true
+
+  CheckBox
+    id: entryEnabled
+    anchors.right: entryIndex.left
+    anchors.verticalCenter: entryIndex.verticalCenter
+    margin-right: 10
+    width: 60
+    text: Ativo
+    tooltip: Desmarque para pausar somente este card
 
   UIWidget
     id: ballGlow
@@ -807,7 +1015,6 @@ AutoCatchWindow < UIWindow
   focusable: true
   visible: false
   @onEscape: modules.game_autocatch.hide()
-  @onEnter: modules.game_autocatch.onAddTargetClick()
 
   UIWidget
     id: headerIconBase
