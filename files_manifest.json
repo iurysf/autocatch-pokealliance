@@ -1,0 +1,105 @@
+{
+  "buildTag": "20260928",
+  "files": [
+    {
+      "path": "modules/game_autocatch/auto_item.lua",
+      "sha256": "399645969a99eb2240c4a0ec52f4096deec092ecd4db396905748203d18c5a76",
+      "size": 6068
+    },
+    {
+      "path": "modules/game_autocatch/autocatch.lua",
+      "sha256": "c36911a398e661940f2fc626b5167a1915dccb776889c1924d0a5ff18416a43b",
+      "size": 124853
+    },
+    {
+      "path": "modules/game_autocatch/autocatch.otmod",
+      "sha256": "84edebfba856e3247c6a78cc169a76d9dc431bb97299ae5abe741edca2af9153",
+      "size": 322
+    },
+    {
+      "path": "modules/game_autocatch/autocatch.otui",
+      "sha256": "718298b8a3738488273acacea7ff1e4845b8ef99fbb142cc888ec6731e0456a7",
+      "size": 27534
+    },
+    {
+      "path": "modules/game_autocatch/catch_dispatch.lua",
+      "sha256": "8488e4f064c89d69eb2dbeeec9a067795ac4b18093d730dec0ffffa0bf8557a3",
+      "size": 490
+    },
+    {
+      "path": "modules/game_autocatch/catch_interval.lua",
+      "sha256": "dce675b3dafe283dfa26eb147f3da81f7701e1c1c6d22e7e4b496381c1fef344",
+      "size": 5130
+    },
+    {
+      "path": "modules/game_autocatch/catch_stats.lua",
+      "sha256": "381531728e6ea00eb577296902692c6a71c46eb93bc4dd89f1ad72f7f6abf1a9",
+      "size": 4167
+    },
+    {
+      "path": "modules/game_autocatch/corpse_claim.lua",
+      "sha256": "b830929b70c4fd69ebd988e0a1a4c136e7454e017a3a4e3cb4d785d735d27e3f",
+      "size": 4413
+    },
+    {
+      "path": "modules/game_autocatch/corpse_registry.lua",
+      "sha256": "600018b6b4049fd19b4de2a7ad6ee389f531aa6cb3f8214342a678f53aa3aeba",
+      "size": 620
+    },
+    {
+      "path": "modules/game_autocatch/corpse_selection.lua",
+      "sha256": "8e2abe6c799222ee338bebcb0fe166147cb211f4fc12c67711efb98af8d9a125",
+      "size": 1793
+    },
+    {
+      "path": "modules/game_autocatch/corpse_target.lua",
+      "sha256": "0a0ea16b02ade2b52bf23ea4088c41ca723e85edf7f1376d62e5d6352a37a6e5",
+      "size": 2920
+    },
+    {
+      "path": "modules/game_autocatch/images/icon.png",
+      "sha256": "a2c83466614862e758a0dc3ca4429557931d166933b3f3c30da2e2be98e651ec",
+      "size": 7646
+    },
+    {
+      "path": "modules/game_autocatch/json_setting.lua",
+      "sha256": "cc993aec0356c9b3ecc4ec8aaf3884d8266ebf14d4cdbbac39817da3cdd32c10",
+      "size": 3670
+    },
+    {
+      "path": "modules/game_autocatch/staff_guard.lua",
+      "sha256": "70a24eb208a8245b77dd7ca64c7b40f5de472d94f652a5cde7fe4ffc1844cafd",
+      "size": 1795
+    },
+    {
+      "path": "modules/game_autocatch/tests/autocatch_runtime_spec.lua",
+      "sha256": "db91111d1c9c7b3b54d910ef2e2de8e1be2a73ea60cbcf997573ead4233d67dc",
+      "size": 41257
+    },
+    {
+      "path": "modules/game_autocatch/tests/catch_interval_spec.lua",
+      "sha256": "c77673f294b30e305cf72c739cf2c2268672683547865cf4c7662770fd91a362",
+      "size": 25437
+    },
+    {
+      "path": "modules/game_autocatch/tests/fake_client.lua",
+      "sha256": "499ba58655084e0a4a900f3e14dda3b9cbc2e817a62e49565e5ed4d406cf5a2a",
+      "size": 15503
+    },
+    {
+      "path": "modules/game_buffs/playerbuffs.lua",
+      "sha256": "0eb4e2c31ef7d58fbe4bf20832c2e1008a346c1dd9547ed08e72e49397fa913e",
+      "size": 8869
+    },
+    {
+      "path": "modules/game_catch/catch.lua",
+      "sha256": "13006121847a055587319d115ccd58dc25b792fef970342a73d9ae344038c40b",
+      "size": 10199
+    },
+    {
+      "path": "modules/game_pokemonbrokes/brokes.lua",
+      "sha256": "cb470dbb103e1afdb3a62962bda8156998473e4df53060e8155e146ac4ec6cce",
+      "size": 20390
+    }
+  ]
+}

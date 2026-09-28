@@ -1,0 +1,186 @@
+{
+  "buildTag": "20260928",
+  "note": "Exact SHA-256-guarded deltas from each supported official build to the workspace patch. Every build uses the same code offsets; only RIP-relative bytes of the replaced instructions differ.",
+  "executables": {
+    "PokeAlliance_gl.exe": [
+      {
+        "size": 36151344,
+        "officialSha256": "84b453d5f612d72c19425b7071101f3af2665056de54999f2cc2a34a2a98c40d",
+        "patchedSha256": "015504c892f35f14b5dacce354c86c8601520f7fc6402c84ea0bbe9bb96da6ef",
+        "changedBytes": 79,
+        "patches": [
+          {
+            "offset": 5839191,
+            "expected": "0f86cf03",
+            "replacement": "e9d00300"
+          },
+          {
+            "offset": 5839196,
+            "expected": "00",
+            "replacement": "90"
+          },
+          {
+            "offset": 5878896,
+            "expected": "40534883ec50488b05c33fa8014833c44889442440488bd9488d4c2420e8fefdffff",
+            "replacement": "c641ff0148b84134b92fc9efc14948890148b877d582971a7679314889410848b888"
+          },
+          {
+            "offset": 5878931,
+            "expected": "48837c2430400f85b80000004533c94c8b5424384c8b5c24200f1f",
+            "replacement": "00d4456c24434889411048b8eb1b40732c60cd3e48894118b001c3"
+          },
+          {
+            "offset": 5898064,
+            "expected": "48895c",
+            "replacement": "b001c3"
+          },
+          {
+            "offset": 5898400,
+            "expected": "4c8bdc",
+            "replacement": "b001c3"
+          },
+          {
+            "offset": 5910989,
+            "expected": "488d150cf01e03",
+            "replacement": "e91c0300009090"
+          }
+        ],
+        "build": "20260926"
+      },
+      {
+        "build": "20260928",
+        "size": 36152360,
+        "officialSha256": "110b2324ef8fc3117a185bd77507dd547331ded6f1becdb9b64debc888b35e95",
+        "patchedSha256": "d62c5398d8f92aff0c41c23922eeea63cb6fa4b5e142355f74d6b2b627b56fd7",
+        "changedBytes": 78,
+        "patches": [
+          {
+            "offset": 5839191,
+            "expected": "0f86cf03",
+            "replacement": "e9d00300"
+          },
+          {
+            "offset": 5839196,
+            "expected": "00",
+            "replacement": "90"
+          },
+          {
+            "offset": 5878896,
+            "expected": "40534883ec50488b05c34fa8014833c44889442440488bd9488d4c2420e8fefdffff",
+            "replacement": "c641ff0148b84134b92fc9efc14948890148b877d582971a7679314889410848b888"
+          },
+          {
+            "offset": 5878931,
+            "expected": "48837c2430400f85b80000004533c94c8b5424384c8b5c24200f1f",
+            "replacement": "00d4456c24434889411048b8eb1b40732c60cd3e48894118b001c3"
+          },
+          {
+            "offset": 5898064,
+            "expected": "48895c",
+            "replacement": "b001c3"
+          },
+          {
+            "offset": 5898400,
+            "expected": "4c8bdc",
+            "replacement": "b001c3"
+          },
+          {
+            "offset": 5910989,
+            "expected": "488d154c001f03",
+            "replacement": "e91c0300009090"
+          }
+        ]
+      }
+    ],
+    "PokeAlliance_dx.exe": [
+      {
+        "size": 35918384,
+        "officialSha256": "f13aff2f77239c5b5d3a614d9d55109d064a77c0aaf12ff41da067ba993fcd4f",
+        "patchedSha256": "2dfab35969d0b05e3fc6ac9c680a92ade599f4a87566fe5ee9ca1387dbd0f9e4",
+        "changedBytes": 79,
+        "patches": [
+          {
+            "offset": 5335559,
+            "expected": "0f86cf03",
+            "replacement": "e9d00300"
+          },
+          {
+            "offset": 5335564,
+            "expected": "00",
+            "replacement": "90"
+          },
+          {
+            "offset": 5358064,
+            "expected": "40534883ec50488b0543f2ac014833c44889442440488bd9488d4c2420e8fefdffff",
+            "replacement": "c641ff0148b84134b92fc9efc14948890148b877d582971a7679314889410848b888"
+          },
+          {
+            "offset": 5358099,
+            "expected": "48837c2430400f85b80000004533c94c8b5424384c8b5c24200f1f",
+            "replacement": "00d4456c24434889411048b8eb1b40732c60cd3e48894118b001c3"
+          },
+          {
+            "offset": 5377232,
+            "expected": "48895c",
+            "replacement": "b001c3"
+          },
+          {
+            "offset": 5377568,
+            "expected": "4c8bdc",
+            "replacement": "b001c3"
+          },
+          {
+            "offset": 5396253,
+            "expected": "488d15acef2203",
+            "replacement": "e91c0300009090"
+          }
+        ],
+        "build": "20260926"
+      },
+      {
+        "build": "20260928",
+        "size": 35919408,
+        "officialSha256": "8eee4b58ccec2781fc717992637b9d6f43a3e7bda78200e57c0c488c7225827a",
+        "patchedSha256": "b949b88ec95c49ccd5d0c9f88621b2b9eaa34b48dade2b867a9ac05af150c6b5",
+        "changedBytes": 79,
+        "patches": [
+          {
+            "offset": 5335559,
+            "expected": "0f86cf03",
+            "replacement": "e9d00300"
+          },
+          {
+            "offset": 5335564,
+            "expected": "00",
+            "replacement": "90"
+          },
+          {
+            "offset": 5358064,
+            "expected": "40534883ec50488b054302ad014833c44889442440488bd9488d4c2420e8fefdffff",
+            "replacement": "c641ff0148b84134b92fc9efc14948890148b877d582971a7679314889410848b888"
+          },
+          {
+            "offset": 5358099,
+            "expected": "48837c2430400f85b80000004533c94c8b5424384c8b5c24200f1f",
+            "replacement": "00d4456c24434889411048b8eb1b40732c60cd3e48894118b001c3"
+          },
+          {
+            "offset": 5377232,
+            "expected": "48895c",
+            "replacement": "b001c3"
+          },
+          {
+            "offset": 5377568,
+            "expected": "4c8bdc",
+            "replacement": "b001c3"
+          },
+          {
+            "offset": 5396253,
+            "expected": "488d15ccff2203",
+            "replacement": "e91c0300009090"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,1105 @@
+AutoCatchCard < UIWidget
+  image-source: /images/general_ui/bordered_background
+  image-border: 8
+  image-color: #15222e
+
+AutoCatchPrimaryButton < UIWidget
+  height: 32
+  image-source: /images/newui/blueStraight
+  image-border: 4
+  color: #ffffff
+  font: poppins bold 11
+  text-align: center
+  change-cursor-image: true
+  cursor: pointer
+  focusable: false
+
+  $hover:
+    image-color: #d9f1ff
+
+  $pressed:
+    image-color: #a8d8f4
+
+AutoCatchSecondaryButton < UIWidget
+  height: 28
+  image-source: /images/newui/grayStraight
+  image-border: 4
+  color: #dbe5ec
+  font: poppins semibold 10
+  text-align: center
+  change-cursor-image: true
+  cursor: pointer
+  focusable: false
+
+  $hover:
+    image-color: #d9e6ef
+    color: #ffffff
+
+AutoCatchDangerButton < UIWidget
+  height: 24
+  image-source: /images/newui/grayStraight
+  image-border: 4
+  image-color: #a85863
+  color: #ffffff
+  font: poppins semibold 10
+  text-align: center
+  change-cursor-image: true
+  cursor: pointer
+  focusable: false
+
+  $hover:
+    image-color: #d86d79
+
+AutoCatchTabButton < UIWidget
+  height: 28
+  image-source: /images/newui/grayStraight
+  image-border: 4
+  color: #8da3b3
+  font: poppins bold 10
+  text-align: center
+  change-cursor-image: true
+  cursor: pointer
+  focusable: false
+
+  $hover:
+    image-color: #d9e6ef
+    color: #ffffff
+
+  $on:
+    image-source: /images/newui/blueStraight
+    color: #ffffff
+
+AutoCatchOptionButton < UIWidget
+  height: 24
+  image-source: /images/newui/grayStraight
+  image-border: 4
+  color: #9cb1c2
+  font: poppins bold 9
+  text-align: center
+  change-cursor-image: true
+  cursor: pointer
+  focusable: false
+
+  $hover:
+    image-color: #d9e6ef
+    color: #ffffff
+
+  $on:
+    image-source: /images/newui/blueStraight
+    color: #ffffff
+
+AutoCatchItemSlot < UIItem
+  size: 46 46
+  virtual: true
+  phantom: false
+  draggable: false
+  item-visible: true
+  image-source: /modules/game_poketask/images/itemslot
+  image-border: 2
+
+AutoCatchCloseButton < UIWidget
+  size: 20 20
+  image-source: /images/newui/close
+  cursor: pointer
+
+AutoCatchPanel < UIWidget
+  id: autoCatchPanel
+  anchors.fill: parent
+
+  UIWidget
+    id: navBar
+    anchors.top: parent.top
+    anchors.left: parent.left
+    anchors.right: parent.right
+    height: 32
+    margin-top: 6
+    margin-left: 14
+    margin-right: 14
+
+    AutoCatchTabButton
+      id: navTabCatch
+      anchors.left: parent.left
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      width: 190
+      text: 🎯 Captura
+      font: poppins bold 11
+      @onClick: modules.game_autocatch.selectSubTab('catch')
+
+    AutoCatchTabButton
+      id: navTabSafety
+      anchors.left: navTabCatch.right
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      margin-left: 8
+      width: 200
+      text: ⚙️ Velocidade & Delays
+      font: poppins bold 11
+      @onClick: modules.game_autocatch.selectSubTab('safety')
+
+    AutoCatchTabButton
+      id: navTabUtils
+      anchors.left: navTabSafety.right
+      anchors.right: parent.right
+      anchors.top: parent.top
+      anchors.bottom: parent.bottom
+      margin-left: 8
+      text: 🎒 Auto Item
+      font: poppins bold 11
+      @onClick: modules.game_autocatch.selectSubTab('utils')
+
+  UIWidget
+    id: tabCatchContent
+    anchors.top: navBar.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: 6
+
+    AutoCatchCard
+      id: statusCard
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 66
+      margin-left: 14
+      margin-right: 14
+
+      UIWidget
+        id: statusIndicator
+        size: 14 14
+        anchors.left: parent.left
+        anchors.verticalCenter: parent.verticalCenter
+        margin-left: 14
+        image-source: /images/general_ui/bordered_background
+        image-border: 6
+        image-color: #a85863
+
+      Label
+        id: statusTitle
+        anchors.left: statusIndicator.right
+        anchors.top: parent.top
+        margin-left: 10
+        margin-top: 8
+        text: AUTO CATCH DESATIVADO
+        color: #dbe5ec
+        font: poppins bold 11
+        text-auto-resize: true
+
+      Label
+        id: status
+        anchors.left: statusIndicator.right
+        anchors.top: statusTitle.bottom
+        anchors.right: parent.right
+        margin-left: 10
+        margin-right: 54
+        margin-top: 1
+        text: Adicione um card e configure uma Ball e um corpo para iniciar.
+        color: #7fa4bb
+        font: poppins semibold 9
+        text-wrap: false
+
+      Label
+        id: statsLine
+        anchors.left: statusIndicator.right
+        anchors.top: status.bottom
+        anchors.right: parent.right
+        margin-left: 10
+        margin-right: 54
+        margin-top: 1
+        text: Lancadas 0 | Capturas 0 | Descartes 0 | Balls gastas 0
+        color: #6f8798
+        font: poppins semibold 9
+        text-wrap: false
+
+      CheckBox
+        id: enabled
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-right: 14
+        tooltip: Ativar / Desativar Auto Catch
+
+    AutoCatchCard
+      id: specialRulesCard
+      anchors.top: statusCard.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 74
+      margin-top: 8
+      margin-left: 14
+      margin-right: 14
+
+      Label
+        anchors.left: parent.left
+        anchors.top: parent.top
+        margin-left: 14
+        margin-top: 7
+        text: REGRAS ESPECIAIS DE BALL
+        color: #7fa4bb
+        font: poppins bold 9
+        text-auto-resize: true
+
+      UIWidget
+        id: shinyBallGlow
+        size: 40 40
+        anchors.left: parent.left
+        anchors.top: parent.top
+        margin-left: 12
+        margin-top: 26
+        image-source: /images/general_ui/bordered_background
+        image-border: 8
+        image-color: #3a2f5b
+        phantom: true
+
+      AutoCatchItemSlot
+        id: shinyBallSlot
+        size: 34 34
+        anchors.centerIn: shinyBallGlow
+        tooltip: Arraste a Ball usada em Pokemon Shiny
+
+      Label
+        id: shinyBallTitle
+        anchors.left: shinyBallGlow.right
+        anchors.top: shinyBallGlow.top
+        margin-left: 8
+        text: Ball para Shiny
+        color: #e0c3ff
+        font: poppins bold 9
+        text-auto-resize: true
+        phantom: true
+
+      Label
+        id: shinyBallInfo
+        anchors.left: shinyBallGlow.right
+        anchors.top: shinyBallTitle.bottom
+        width: 120
+        margin-left: 8
+        margin-top: 1
+        text: Nao configurada (usa a Ball do card)
+        color: #9aaab5
+        font: poppins semibold 9
+        text-wrap: true
+        phantom: true
+
+      AutoCatchSecondaryButton
+        id: selectShinyBall
+        anchors.left: shinyBallInfo.right
+        anchors.verticalCenter: shinyBallGlow.verticalCenter
+        margin-left: 4
+        width: 66
+        height: 24
+        font: poppins semibold 9
+        text: Selecionar
+
+      AutoCatchSecondaryButton
+        id: clearShinyBall
+        anchors.left: selectShinyBall.right
+        anchors.verticalCenter: selectShinyBall.verticalCenter
+        margin-left: 4
+        width: 44
+        height: 24
+        font: poppins semibold 9
+        text: Limpar
+
+      UIWidget
+        id: reserveBallGlow
+        size: 40 40
+        anchors.left: parent.horizontalCenter
+        anchors.top: parent.top
+        margin-left: 10
+        margin-top: 26
+        image-source: /images/general_ui/bordered_background
+        image-border: 8
+        image-color: #1d435b
+        phantom: true
+
+      AutoCatchItemSlot
+        id: reserveBallSlot
+        size: 34 34
+        anchors.centerIn: reserveBallGlow
+        tooltip: Arraste a Ball usada quando a Ball do card acabar
+
+      Label
+        id: reserveBallTitle
+        anchors.left: reserveBallGlow.right
+        anchors.top: reserveBallGlow.top
+        margin-left: 8
+        text: Ball reserva
+        color: #9cd7ff
+        font: poppins bold 9
+        text-auto-resize: true
+        phantom: true
+
+      Label
+        id: reserveBallInfo
+        anchors.left: reserveBallGlow.right
+        anchors.top: reserveBallTitle.bottom
+        width: 120
+        margin-left: 8
+        margin-top: 1
+        text: Nao configurada (corpo e ignorado sem Ball)
+        color: #9aaab5
+        font: poppins semibold 9
+        text-wrap: true
+        phantom: true
+
+      AutoCatchSecondaryButton
+        id: selectReserveBall
+        anchors.left: reserveBallInfo.right
+        anchors.verticalCenter: reserveBallGlow.verticalCenter
+        margin-left: 4
+        width: 66
+        height: 24
+        font: poppins semibold 9
+        text: Selecionar
+
+      AutoCatchSecondaryButton
+        id: clearReserveBall
+        anchors.left: selectReserveBall.right
+        anchors.verticalCenter: selectReserveBall.verticalCenter
+        margin-left: 4
+        width: 44
+        height: 24
+        font: poppins semibold 9
+        text: Limpar
+
+    AutoCatchCard
+      id: captureHeader
+      anchors.top: specialRulesCard.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 62
+      margin-top: 8
+      margin-left: 14
+      margin-right: 14
+
+      Label
+        id: captureTitle
+        anchors.left: parent.left
+        anchors.top: parent.top
+        margin-left: 14
+        margin-top: 9
+        text: CAPTURA POR CORPOS
+        color: #dbeaf5
+        font: poppins bold 11
+        text-auto-resize: true
+
+      Label
+        id: entriesCountHint
+        anchors.left: parent.left
+        anchors.top: captureTitle.bottom
+        anchors.right: parent.right
+        margin-left: 14
+        margin-right: 186
+        margin-top: 2
+        text: 0/0 cards configurados. A captura usa somente o ID do corpo.
+        color: #8fa9ba
+        font: poppins semibold 9
+        text-auto-resize: false
+
+      AutoCatchPrimaryButton
+        id: addPokemon
+        anchors.right: parent.right
+        anchors.verticalCenter: parent.verticalCenter
+        margin-right: 12
+        width: 164
+        height: 32
+        text: + Add novo Pokemon
+        font: poppins bold 10
+        @onClick: modules.game_autocatch.addNewPokemon()
+
+    AutoCatchCard
+      id: entriesCard
+      anchors.top: captureHeader.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      margin-top: 8
+      margin-left: 14
+      margin-right: 14
+      margin-bottom: 8
+
+      Label
+        id: entriesEmpty
+        anchors.centerIn: parent
+        text: Nenhum card criado. Clique em + Add novo Pokemon.
+        color: #8fa9ba
+        font: poppins semibold 10
+        text-auto-resize: true
+        text-align: center
+        phantom: true
+
+      ScrollablePanel
+        id: entriesList
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        margin-top: 10
+        margin-left: 8
+        margin-right: 16
+        margin-bottom: 10
+        vertical-scrollbar: entriesScrollBar
+        layout:
+          type: verticalBox
+          spacing: 8
+
+      AllianceVerticalScrollBar
+        id: entriesScrollBar
+        anchors.top: entriesList.top
+        anchors.bottom: entriesList.bottom
+        anchors.right: parent.right
+        margin-right: 3
+        step: 108
+        pixels-scroll: true
+
+  UIWidget
+    id: tabSafetyContent
+    anchors.top: navBar.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: 6
+    visible: false
+
+    AutoCatchCard
+      id: safetyExplanationCard
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 96
+      margin-left: 14
+      margin-right: 14
+
+      UIWidget
+        size: 3 36
+        anchors.left: parent.left
+        anchors.top: parent.top
+        margin-left: 10
+        margin-top: 10
+        background-color: #42d392
+
+      Label
+        anchors.left: parent.left
+        anchors.top: parent.top
+        margin-left: 20
+        margin-top: 10
+        text: SEGURANCA E TEMPO DE REACAO HUMANO
+        color: #65dba7
+        font: poppins bold 11
+        text-auto-resize: true
+
+      Label
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.right: parent.right
+        margin-left: 20
+        margin-right: 16
+        margin-top: 32
+        text: O intervalo entre lancamentos e sorteado entre o minimo e o maximo (nunca abaixo do ping) e, a cada poucos lancamentos, o Auto Catch faz uma pausa curta, imitando o tempo de reacao de um jogador real. O modo Turbo chama atencao; recomendamos o Modo Humano Seguro.
+        color: #9cb1c2
+        font: poppins semibold 9
+        text-wrap: true
+
+    AutoCatchCard
+      id: safetySpeedCard
+      anchors.top: safetyExplanationCard.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 210
+      margin-top: 10
+      margin-left: 14
+      margin-right: 14
+
+      Label
+        anchors.left: parent.left
+        anchors.top: parent.top
+        margin-left: 16
+        margin-top: 12
+        text: MODO DE VELOCIDADE
+        color: #7fa4bb
+        font: poppins bold 10
+        text-auto-resize: true
+
+      AutoCatchOptionButton
+        id: presetSafe
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.horizontalCenter
+        margin-top: 34
+        margin-left: 16
+        margin-right: 4
+        height: 30
+        text: Seguro (recomendado)
+        font: poppins bold 10
+        tooltip: 0,35 a 0,7 s entre as Balls
+
+      AutoCatchOptionButton
+        id: presetNormal
+        anchors.top: parent.top
+        anchors.left: parent.horizontalCenter
+        anchors.right: parent.right
+        margin-top: 34
+        margin-left: 4
+        margin-right: 16
+        height: 30
+        text: Padrao
+        font: poppins bold 10
+        tooltip: 0,2 a 0,4 s entre as Balls
+
+      AutoCatchOptionButton
+        id: presetTurbo
+        anchors.top: presetSafe.bottom
+        anchors.left: parent.left
+        anchors.right: parent.horizontalCenter
+        margin-top: 6
+        margin-left: 16
+        margin-right: 4
+        height: 30
+        text: Turbo
+        font: poppins bold 10
+        tooltip: 0,08 a 0,18 s entre as Balls (chama atencao)
+
+      AutoCatchOptionButton
+        id: presetCustom
+        anchors.top: presetSafe.bottom
+        anchors.left: parent.horizontalCenter
+        anchors.right: parent.right
+        margin-top: 6
+        margin-left: 4
+        margin-right: 16
+        height: 30
+        text: Personalizado
+        font: poppins bold 10
+        tooltip: Volta ao ultimo intervalo que voce digitou
+
+      Label
+        id: intervalModeHint
+        anchors.top: presetTurbo.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 8
+        margin-left: 16
+        margin-right: 16
+        height: 28
+        text: -
+        color: #9cb1c2
+        font: poppins semibold 9
+        text-wrap: true
+
+      Label
+        id: catchIntervalMinLabel
+        anchors.left: parent.left
+        anchors.top: intervalModeHint.bottom
+        margin-left: 16
+        margin-top: 10
+        text: Minimo (s):
+        color: #dce9f2
+        font: poppins semibold 10
+        text-auto-resize: true
+
+      TextEdit
+        id: catchIntervalMinEdit
+        anchors.left: catchIntervalMinLabel.right
+        anchors.verticalCenter: catchIntervalMinLabel.verticalCenter
+        margin-left: 6
+        width: 60
+        height: 26
+        text: 0,35
+        color: #ffffff
+        font: poppins bold 10
+        text-align: center
+        tooltip: Segundos: 5 = 5000 ms, 0,35 = 350 ms
+
+      Label
+        id: catchIntervalMaxLabel
+        anchors.left: catchIntervalMinEdit.right
+        anchors.verticalCenter: catchIntervalMinLabel.verticalCenter
+        margin-left: 12
+        text: Maximo (s):
+        color: #dce9f2
+        font: poppins semibold 10
+        text-auto-resize: true
+
+      TextEdit
+        id: catchIntervalMaxEdit
+        anchors.left: catchIntervalMaxLabel.right
+        anchors.verticalCenter: catchIntervalMinLabel.verticalCenter
+        margin-left: 6
+        width: 60
+        height: 26
+        text: 0,7
+        color: #ffffff
+        font: poppins bold 10
+        text-align: center
+        tooltip: Segundos: 5 = 5000 ms, 0,35 = 350 ms
+
+      AutoCatchSecondaryButton
+        id: intervalSaveButton
+        anchors.left: catchIntervalMaxEdit.right
+        anchors.verticalCenter: catchIntervalMinLabel.verticalCenter
+        margin-left: 10
+        width: 64
+        height: 26
+        text: Salvar
+
+      Label
+        id: intervalSaveStatus
+        anchors.top: catchIntervalMinLabel.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
+        margin-top: 12
+        margin-left: 16
+        margin-right: 16
+        text: -
+        color: #62d985
+        font: poppins semibold 9
+        text-auto-resize: false
+
+    AutoCatchCard
+      id: safetyOptionsCard
+      anchors.top: safetySpeedCard.bottom
+      anchors.left: parent.left
+      anchors.right: parent.right
+      height: 88
+      margin-top: 10
+      margin-left: 14
+      margin-right: 14
+
+      Label
+        anchors.left: parent.left
+        anchors.top: parent.top
+        margin-left: 16
+        margin-top: 12
+        text: PROTECOES
+        color: #7fa4bb
+        font: poppins bold 10
+        text-auto-resize: true
+
+      CheckBox
+        id: staffGuard
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: parent.top
+        margin-left: 16
+        margin-right: 16
+        margin-top: 36
+        text: Pausar os lancamentos enquanto houver staff (GM/CM/Tutor) na tela
+        tooltip: Nenhuma Ball e lancada enquanto um membro da staff estiver visivel
+
+      CheckBox
+        id: autoRearm
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.top: staffGuard.bottom
+        margin-left: 16
+        margin-right: 16
+        margin-top: 8
+        text: Reativar automaticamente ao entrar no jogo (se estava ligado ao sair)
+        tooltip: Util para o logout diario com relogin automatico
+
+  UIWidget
+    id: tabUtilsContent
+    anchors.top: navBar.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: 6
+    visible: false
+
+    AutoCatchCard
+      id: utilsItemCard
+      anchors.top: parent.top
+      anchors.left: parent.left
+      anchors.right: parent.right
+      anchors.bottom: parent.bottom
+      margin-left: 14
+      margin-right: 14
+      margin-bottom: 8
+
+      UIWidget
+        size: 3 32
+        anchors.left: parent.left
+        anchors.top: parent.top
+        margin-left: 10
+        margin-top: 10
+        background-color: #e58e26
+
+      Label
+        anchors.left: parent.left
+        anchors.top: parent.top
+        margin-left: 20
+        margin-top: 10
+        text: ITEM AUTOMATICO POR BUFFS
+        color: #f39c12
+        font: poppins bold 11
+        text-auto-resize: true
+
+      AutoCatchPrimaryButton
+        id: addAutoItem
+        anchors.right: parent.right
+        anchors.top: parent.top
+        margin-right: 14
+        margin-top: 9
+        width: 146
+        height: 28
+        text: + Add novo Item
+        font: poppins bold 9
+
+      Label
+        anchors.left: parent.left
+        anchors.top: parent.top
+        anchors.right: addAutoItem.left
+        margin-left: 20
+        margin-right: 12
+        margin-top: 31
+        text: Cada card aprende os buffs do item e renova somente depois que todos os buffs terminarem.
+        color: #9cb1c2
+        font: poppins semibold 9
+        text-wrap: true
+
+      Label
+        id: autoItemsCountHint
+        anchors.left: parent.left
+        anchors.top: parent.top
+        margin-left: 20
+        margin-top: 57
+        text: 0 item(ns). Cada card renova pelo tempo real do buff.
+        color: #7fa4bb
+        font: poppins semibold 9
+        text-auto-resize: true
+
+      Label
+        id: autoItemsEmpty
+        anchors.centerIn: parent
+        text: Nenhum item criado. Clique em + Add novo Item.
+        color: #8fa9ba
+        font: poppins semibold 10
+        text-auto-resize: true
+        text-align: center
+        phantom: true
+
+      ScrollablePanel
+        id: autoItemsList
+        anchors.top: parent.top
+        anchors.left: parent.left
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+        margin-top: 76
+        margin-left: 8
+        margin-right: 16
+        margin-bottom: 10
+        vertical-scrollbar: autoItemsScrollBar
+        layout:
+          type: verticalBox
+          spacing: 8
+
+      AllianceVerticalScrollBar
+        id: autoItemsScrollBar
+        anchors.top: autoItemsList.top
+        anchors.bottom: autoItemsList.bottom
+        anchors.right: parent.right
+        margin-right: 3
+        step: 120
+        pixels-scroll: true
+
+AutoCatchEntryRow < AutoCatchCard
+  height: 104
+  focusable: false
+
+  Label
+    id: pokemonLabel
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-left: 12
+    margin-top: 9
+    text: Pokemon 1
+    color: #dbeaf5
+    font: poppins bold 11
+    text-auto-resize: true
+    phantom: true
+
+  Label
+    id: entryIndex
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-right: 12
+    margin-top: 10
+    text: #1
+    color: #6f8798
+    font: poppins semibold 9
+    text-auto-resize: true
+    phantom: true
+
+  CheckBox
+    id: entryEnabled
+    anchors.right: entryIndex.left
+    anchors.verticalCenter: entryIndex.verticalCenter
+    margin-right: 10
+    width: 60
+    text: Ativo
+    tooltip: Desmarque para pausar somente este card
+
+  UIWidget
+    id: ballGlow
+    size: 54 54
+    anchors.left: parent.left
+    anchors.top: pokemonLabel.bottom
+    margin-left: 10
+    margin-top: 5
+    image-source: /images/general_ui/bordered_background
+    image-border: 8
+    image-color: #1d435b
+    phantom: true
+
+  AutoCatchItemSlot
+    id: ballSlot
+    size: 46 46
+    anchors.centerIn: ballGlow
+    tooltip: Arraste uma Ball para este card
+
+  Label
+    id: ballInfo
+    anchors.left: ballGlow.right
+    anchors.top: ballGlow.top
+    width: 142
+    margin-left: 10
+    margin-top: 4
+    text: Ball nao selecionada
+    color: #9aaab5
+    font: poppins semibold 9
+    text-wrap: true
+    phantom: true
+
+  Label
+    id: corpseInfo
+    anchors.left: ballGlow.right
+    anchors.top: ballInfo.bottom
+    width: 142
+    margin-left: 10
+    margin-top: 4
+    text: Corpo nao selecionado
+    color: #9aaab5
+    font: poppins semibold 9
+    text-wrap: true
+    phantom: true
+
+  AutoCatchSecondaryButton
+    id: selectBall
+    anchors.left: ballInfo.right
+    anchors.verticalCenter: ballGlow.verticalCenter
+    margin-left: 7
+    width: 102
+    height: 26
+    font: poppins semibold 9
+    text: Selecionar Ball
+
+  AutoCatchSecondaryButton
+    id: selectCorpse
+    anchors.left: selectBall.right
+    anchors.verticalCenter: selectBall.verticalCenter
+    margin-left: 7
+    width: 111
+    height: 26
+    font: poppins semibold 9
+    text: Selecionar Corpo
+
+  AutoCatchSecondaryButton
+    id: deleteEntry
+    anchors.left: selectCorpse.right
+    anchors.verticalCenter: selectCorpse.verticalCenter
+    margin-left: 7
+    width: 62
+    height: 26
+    font: poppins semibold 9
+    text: Excluir
+
+AutoCatchAutoItemRow < AutoCatchCard
+  height: 118
+  focusable: false
+
+  Label
+    id: autoItemLabel
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-left: 12
+    margin-top: 8
+    text: Item 1
+    color: #dbeaf5
+    font: poppins bold 11
+    text-auto-resize: true
+    phantom: true
+
+  Label
+    id: autoItemIndex
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-right: 12
+    margin-top: 9
+    text: #1
+    color: #6f8798
+    font: poppins semibold 9
+    text-auto-resize: true
+    phantom: true
+
+  UIWidget
+    id: itemGlow
+    size: 54 54
+    anchors.left: parent.left
+    anchors.top: autoItemLabel.bottom
+    margin-left: 10
+    margin-top: 5
+    image-source: /images/general_ui/bordered_background
+    image-border: 8
+    image-color: #1d435b
+    phantom: true
+
+  AutoCatchItemSlot
+    id: itemSlot
+    size: 46 46
+    anchors.centerIn: itemGlow
+    virtual: false
+    selectable: true
+    tooltip: Arraste um item real da mochila para este card
+
+  Label
+    id: itemInfo
+    anchors.left: itemGlow.right
+    anchors.top: itemGlow.top
+    anchors.right: parent.right
+    margin-left: 10
+    margin-right: 136
+    margin-top: 2
+    text: Item nao selecionado
+    color: #a39882
+    font: poppins bold 10
+    text-wrap: true
+    phantom: true
+
+  Label
+    id: buffInfo
+    anchors.left: itemGlow.right
+    anchors.top: itemInfo.bottom
+    anchors.right: parent.right
+    margin-left: 10
+    margin-right: 136
+    margin-top: 3
+    text: Buff: descobrindo...
+    color: #a39882
+    font: poppins semibold 9
+    text-wrap: true
+    phantom: true
+
+  Label
+    id: timerInfo
+    anchors.left: itemGlow.right
+    anchors.top: buffInfo.bottom
+    anchors.right: parent.right
+    margin-left: 10
+    margin-right: 214
+    margin-top: 3
+    text: Desativado
+    color: #778899
+    font: poppins semibold 9
+    text-wrap: true
+    phantom: true
+
+  AutoCatchSecondaryButton
+    id: selectItem
+    anchors.right: parent.right
+    anchors.top: parent.top
+    margin-right: 12
+    margin-top: 30
+    width: 112
+    height: 26
+    font: poppins semibold 9
+    text: Selecionar Item
+
+  AutoCatchDangerButton
+    id: deleteItem
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-right: 12
+    margin-bottom: 11
+    width: 62
+    height: 24
+    font: poppins semibold 9
+    text: Excluir
+
+  CheckBox
+    id: itemEnabled
+    anchors.right: deleteItem.left
+    anchors.verticalCenter: deleteItem.verticalCenter
+    margin-right: 8
+    width: 68
+    text: Ativo
+    tooltip: Ativa somente este item automatico
+
+AutoCatchWindow < UIWindow
+  id: autoCatchWindow
+  size: 640 680
+  anchors.centerIn: parent
+  image-border: 15
+  image-source: /images/newui/background_3
+  background-color: #101a23
+  draggable: true
+  focusable: true
+  visible: false
+  @onEscape: modules.game_autocatch.hide()
+
+  UIWidget
+    id: headerIconBase
+    size: 32 32
+    anchors.left: parent.left
+    anchors.top: parent.top
+    margin-left: 16
+    margin-top: 12
+    image-source: /images/general_ui/bordered_background
+    image-border: 8
+    image-color: #215b80
+    phantom: true
+
+    UIWidget
+      size: 24 24
+      anchors.centerIn: parent
+      image-source: /modules/game_autocatch/images/icon
+      phantom: true
+
+  Label
+    id: titleLabel
+    anchors.left: headerIconBase.right
+    anchors.top: parent.top
+    margin-left: 10
+    margin-top: 10
+    text: Auto Catch
+    color: #ffffff
+    font: poppins bold 16
+    text-auto-resize: true
+    phantom: true
+
+  Label
+    id: subtitleLabel
+    anchors.left: titleLabel.right
+    anchors.verticalCenter: titleLabel.verticalCenter
+    margin-left: 12
+    text: Captura direta por ID de corpo
+    color: #7793a7
+    font: poppins semibold 10
+    text-auto-resize: true
+    phantom: true
+
+  AutoCatchCloseButton
+    id: closeButton
+    anchors.top: parent.top
+    anchors.right: parent.right
+    margin-top: 12
+    margin-right: 12
+    @onClick: modules.game_autocatch.hide()
+
+  AutoCatchPanel
+    id: autoCatchPanel
+    anchors.top: headerIconBase.bottom
+    anchors.left: parent.left
+    anchors.right: parent.right
+    anchors.bottom: parent.bottom
+    margin-top: 6
