@@ -1,5 +1,5 @@
 {
-  "buildTag": "20260928",
+  "buildTag": "20261006",
   "files": [
     {
       "path": "modules/game_autocatch/auto_item.lua",
@@ -88,8 +88,8 @@
     },
     {
       "path": "modules/game_buffs/playerbuffs.lua",
-      "sha256": "0eb4e2c31ef7d58fbe4bf20832c2e1008a346c1dd9547ed08e72e49397fa913e",
-      "size": 8869
+      "sha256": "08819a969445f8da58854aead10773e96bea2c28441dc6b6995bb182cc943ec3",
+      "size": 9044
     },
     {
       "path": "modules/game_catch/catch.lua",

@@ -13,7 +13,7 @@ from pathlib import Path, PurePosixPath
 
 
 PACKAGE_DIR = Path(__file__).resolve().parent
-BUILD_TAG = "20260928"
+BUILD_TAG = "20261006"
 
 
 class PatchError(RuntimeError):

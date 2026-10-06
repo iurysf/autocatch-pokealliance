@@ -273,6 +273,9 @@ function loadPosition()
         return
     end
     playerBuffsWindow:move(getBuffsPositionX(), getBuffsPositionY())
+    -- A posicao salva pode vir de uma tela maior que a atual; restaurada como esta, a janela
+    -- fica fora do alcance do jogador.
+    playerBuffsWindow:bindRectToParent()
 end
 
 function getBuffsPositionX()
