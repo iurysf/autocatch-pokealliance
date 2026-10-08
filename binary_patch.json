@@ -1,5 +1,5 @@
 {
-  "buildTag": "20261006",
+  "buildTag": "20261007",
   "note": "Exact SHA-256-guarded deltas from each supported official build to the workspace patch. Every build uses the same code offsets; only RIP-relative bytes of the replaced instructions differ.",
   "executables": {
     "PokeAlliance_gl.exe": [
@@ -134,6 +134,50 @@
             "replacement": "e91c0300009090"
           }
         ]
+      },
+      {
+        "build": "20261007",
+        "size": 36157488,
+        "officialSha256": "5db2cf3f15ae5e92ea6843a8a80011723146068b409dda930387521d123f6e33",
+        "patchedSha256": "85856e9815a6b3e124b14e9d0c40c9583e826de72fcd1ae1ad3cb264df5cfab1",
+        "changedBytes": 79,
+        "patches": [
+          {
+            "offset": 5842039,
+            "expected": "0f86cf03",
+            "replacement": "e9d00300"
+          },
+          {
+            "offset": 5842044,
+            "expected": "00",
+            "replacement": "90"
+          },
+          {
+            "offset": 5881744,
+            "expected": "40534883ec50488b05a354a8014833c44889442440488bd9488d4c2420e8fefdffff",
+            "replacement": "c641ff0148b84134b92fc9efc14948890148b877d582971a7679314889410848b888"
+          },
+          {
+            "offset": 5881779,
+            "expected": "48837c2430400f85b80000004533c94c8b5424384c8b5c24200f1f",
+            "replacement": "00d4456c24434889411048b8eb1b40732c60cd3e48894118b001c3"
+          },
+          {
+            "offset": 5900912,
+            "expected": "48895c",
+            "replacement": "b001c3"
+          },
+          {
+            "offset": 5901248,
+            "expected": "4c8bdc",
+            "replacement": "b001c3"
+          },
+          {
+            "offset": 5913837,
+            "expected": "488d158c091f03",
+            "replacement": "e91c0300009090"
+          }
+        ]
       }
     ],
     "PokeAlliance_dx.exe": [
@@ -265,6 +309,50 @@
           {
             "offset": 5397213,
             "expected": "488d15cc002303",
+            "replacement": "e91c0300009090"
+          }
+        ]
+      },
+      {
+        "build": "20261007",
+        "size": 35924528,
+        "officialSha256": "2cf80e1164660f24e18799acec2ea3b5884b6238788621f53da0efc2d890e4d7",
+        "patchedSha256": "57b50f5f49768a855f957fd9040489304a80ef0a3fd57782afa4402cc46cca99",
+        "changedBytes": 79,
+        "patches": [
+          {
+            "offset": 5337175,
+            "expected": "0f86cf03",
+            "replacement": "e9d00300"
+          },
+          {
+            "offset": 5337180,
+            "expected": "00",
+            "replacement": "90"
+          },
+          {
+            "offset": 5359680,
+            "expected": "40534883ec50488b05f30bad014833c44889442440488bd9488d4c2420e8fefdffff",
+            "replacement": "c641ff0148b84134b92fc9efc14948890148b877d582971a7679314889410848b888"
+          },
+          {
+            "offset": 5359715,
+            "expected": "48837c2430400f85b80000004533c94c8b5424384c8b5c24200f1f",
+            "replacement": "00d4456c24434889411048b8eb1b40732c60cd3e48894118b001c3"
+          },
+          {
+            "offset": 5378848,
+            "expected": "48895c",
+            "replacement": "b001c3"
+          },
+          {
+            "offset": 5379184,
+            "expected": "4c8bdc",
+            "replacement": "b001c3"
+          },
+          {
+            "offset": 5397869,
+            "expected": "488d153c0e2303",
             "replacement": "e91c0300009090"
           }
         ]
