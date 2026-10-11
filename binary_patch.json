@@ -1,5 +1,5 @@
 {
-  "buildTag": "20261007",
+  "buildTag": "20261011",
   "note": "Exact SHA-256-guarded deltas from each supported official build to the workspace patch. Every build uses the same code offsets; only RIP-relative bytes of the replaced instructions differ.",
   "executables": {
     "PokeAlliance_gl.exe": [
@@ -178,6 +178,60 @@
             "replacement": "e91c0300009090"
           }
         ]
+      },
+      {
+        "build": "20261011",
+        "size": 36290096,
+        "officialSha256": "a944aeb3d45964f44ea320bc99ec042fb11fc2fdb8de4b0afa233df915f440d0",
+        "patchedSha256": "8477a65626e20b2171975fb96d20b35cc77bfe44309a847f6cf04f02425b9f39",
+        "changedBytes": 88,
+        "patches": [
+          {
+            "offset": 5861319,
+            "expected": "0f86cf03",
+            "replacement": "e9d00300"
+          },
+          {
+            "offset": 5861324,
+            "expected": "00",
+            "replacement": "90"
+          },
+          {
+            "offset": 5900400,
+            "expected": "40534883ec50488b05c30baa014833c44889442440488bd9488d4c2420e8fefdffff",
+            "replacement": "c641ff0148b84134b92fc9efc14948890148b877d582971a7679314889410848b888"
+          },
+          {
+            "offset": 5900435,
+            "expected": "48837c2430400f85b80000004533c94c8b5424384c8b5c24200f1f",
+            "replacement": "00d4456c24434889411048b8eb1b40732c60cd3e48894118b001c3"
+          },
+          {
+            "offset": 5919568,
+            "expected": "48895c",
+            "replacement": "b001c3"
+          },
+          {
+            "offset": 5919904,
+            "expected": "4c8bdc",
+            "replacement": "b001c3"
+          },
+          {
+            "offset": 5932493,
+            "expected": "488d15dcc32003",
+            "replacement": "e91c0300009090"
+          },
+          {
+            "offset": 7725384,
+            "expected": "0f8586160000",
+            "replacement": "909090909090"
+          },
+          {
+            "offset": 8287424,
+            "expected": "48895c",
+            "replacement": "b001c3"
+          }
+        ]
       }
     ],
     "PokeAlliance_dx.exe": [
@@ -354,6 +408,60 @@
             "offset": 5397869,
             "expected": "488d153c0e2303",
             "replacement": "e91c0300009090"
+          }
+        ]
+      },
+      {
+        "build": "20261011",
+        "size": 36056624,
+        "officialSha256": "d3b6e4c130e9e7a01c030ca12f6de8a55384fa932f031a146335b74584e57426",
+        "patchedSha256": "664cde6c3a660b64f08e55c228d414cf33617f2dd91428e64fb2c33a91f4635a",
+        "changedBytes": 88,
+        "patches": [
+          {
+            "offset": 5357143,
+            "expected": "0f86cf03",
+            "replacement": "e9d00300"
+          },
+          {
+            "offset": 5357148,
+            "expected": "00",
+            "replacement": "90"
+          },
+          {
+            "offset": 5378144,
+            "expected": "40534883ec50488b05d3b3ae014833c44889442440488bd9488d4c2420e8fefdffff",
+            "replacement": "c641ff0148b84134b92fc9efc14948890148b877d582971a7679314889410848b888"
+          },
+          {
+            "offset": 5378179,
+            "expected": "48837c2430400f85b80000004533c94c8b5424384c8b5c24200f1f",
+            "replacement": "00d4456c24434889411048b8eb1b40732c60cd3e48894118b001c3"
+          },
+          {
+            "offset": 5397312,
+            "expected": "48895c",
+            "replacement": "b001c3"
+          },
+          {
+            "offset": 5397648,
+            "expected": "4c8bdc",
+            "replacement": "b001c3"
+          },
+          {
+            "offset": 5417213,
+            "expected": "488d158cb52403",
+            "replacement": "e91c0300009090"
+          },
+          {
+            "offset": 7688200,
+            "expected": "0f8586160000",
+            "replacement": "909090909090"
+          },
+          {
+            "offset": 8267056,
+            "expected": "48895c",
+            "replacement": "b001c3"
           }
         ]
       }
