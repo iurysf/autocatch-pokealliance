@@ -1,5 +1,18 @@
 # PokeAlliance AutoCatch + Auto Item Refresh
 
+> 🚫 **Projeto descontinuado (15/10/2026).** Não funciona no cliente atual do PokeAlliance
+> e não receberá atualizações.
+>
+> **Por quê:** a partir do build de **14/10/2026**, o cliente oficial passou a embutir os
+> módulos do jogo (Lua) compilados dentro do próprio executável e **ignora arquivos Lua
+> soltos** na pasta `modules/`. O AutoCatch e o Auto Item Refresh são módulos Lua carregados
+> dessa forma, então deixam de ser carregados. Além disso, as funções do executável que o
+> pacote ajustava para aceitar módulos em texto foram reescritas nesse build, e o delta
+> binário não se aplica mais. O instalador só aceita os builds de 26/09 e 28/09/2026 (confere
+> o SHA-256) e recusa o cliente atual sem alterar nada.
+>
+> O conteúdo abaixo fica apenas como registro da última versão (builds de 26/09 e 28/09/2026).
+
 Módulos de AutoCatch e Auto Item Refresh para o cliente PokeAlliance no Windows.
 
 > ⚠️ **Aviso de risco:** o uso de automações pode violar as regras do jogo e
